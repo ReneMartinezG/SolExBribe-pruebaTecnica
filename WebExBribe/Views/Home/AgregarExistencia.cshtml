@@ -1,0 +1,28 @@
+﻿@using DataBribe.Models
+@model ProductoPorSucursal
+
+
+@{
+    ViewBag.Title = "AgregarExistencia";
+}
+
+<h2>Agregar Inventario</h2>
+
+<form action="/Home/AgregarExistencia">
+    <input type="hidden" name="id" value="@Model.id" />
+    <input type="hidden" name="idSucursal" value="@Model.idSucursal" />
+    <input type="hidden" name="idProducto" value="@Model.idProducto" />
+
+    <div class="mb-3">
+        <label class="form-label">Cantidad Actual de Existencias</label>
+        <input type="text" name="cantidad" value="@Model.cantidad" class="form-control" disabled/>
+        <input type="hidden" value="@Model.cantidad" />
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Cantidad de productos para agregar</label>
+        <input type="number" name="cantidadNueva" class="form-control" value="" />
+    </div>
+
+    <input type="submit" value="Agregar" class="btn btn-primary" />
+</form>
+

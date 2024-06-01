@@ -1,0 +1,106 @@
+﻿@using DataBribe.Models.Entidades
+@model SucursalNombre
+
+
+@{
+    ViewBag.Title = "SucursalProducto";
+}
+
+<div class="accordion accordion-flush mt-5" id="SucursalesProductos" style="background-color: #8EB0CC;">
+    @foreach (var (sucursal, index) in Model.Sucursal.Select((value, i) => (value, i)))
+    {
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse-@index" aria-expanded="false" aria-controls="flush-collapse-@index">
+                    @sucursal
+                </button>
+            </h2>
+            <div id="flush-collapse-@index" class="accordion-collapse collapse" data-bs-parent="#SucursalesProductos">
+
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <td>Producto</td>
+                            <td>Codigo de barras</td>
+                            <td>Cantidad</td>
+                            <td>Precio Unitario</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var producto in Model.ProductoSucursal.Where(X => X.Sucursales.Sucursal == sucursal))
+                        {
+                            <tr>
+                                <td>@producto.Productos.producto</td>
+                                <td>@producto.Productos.codigoBarras</td>
+                                <td>@producto.cantidad</td>
+                                <td>@producto.Productos.precio</td>
+                                <td>
+                                    <!-- boton para activar el modal -->
+                                    <a href="#" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop" data-cantidad="@producto.cantidad">
+                                        Agregar Existencia
+                                    </a>
+
+                                    <a href="/Home/IrAgregarExistencia?idProductoPorSucursal=@producto.id">Agregar Existencia</a>
+
+                                    <a href="/Home/irVenderProducto?idProductoPorSucursal=@producto.id">Vender producto</a>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    }
+</div>
+
+<!--
+ Modal
+    -->
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="staticBackdropLabel">Agregar Existencia</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="d-flex justify-content-center align-items-center" ">
+                    <div class="row">
+                        <div class="col">
+                            <i class="bi bi-plus-lg"></i>
+                        </div>
+                        <div class="col">
+                            <input type="number" id="cantidadInput" value="" name="cantidad" />
+
+                        </div>
+                        <div class="col">
+                            <i class="bi bi-dash"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Confirmar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const modalCantidadInput = document.getElementById('cantidadInput');
+        const agregarExistenciaButtons = document.querySelectorAll('[data-bs-target="#staticBackdrop"]');
+
+        agregarExistenciaButtons.forEach(function (button) {
+            button.addEventListener('click', function () {
+                const cantidad = this.getAttribute('data-cantidad');
+                modalCantidadInput.value = cantidad;
+            });
+        });
+    });
+</script>
+

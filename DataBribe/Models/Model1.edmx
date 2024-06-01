@@ -1,0 +1,198 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="ExamenModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="ProductoPorSucursal">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="cantidad" Type="int" />
+          <Property Name="idSucursal" Type="int" />
+          <Property Name="idProducto" Type="int" />
+        </EntityType>
+        <EntityType Name="Productos">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="producto" Type="varchar" MaxLength="100" />
+          <Property Name="codigoBarras" Type="varchar" MaxLength="50" />
+          <Property Name="precio" Type="decimal" Precision="10" Scale="2" />
+        </EntityType>
+        <EntityType Name="Sucursales">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Sucursal" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <Association Name="FK_ProductoPorSucursal_Productos">
+          <End Role="Productos" Type="Self.Productos" Multiplicity="0..1" />
+          <End Role="ProductoPorSucursal" Type="Self.ProductoPorSucursal" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Productos">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="ProductoPorSucursal">
+              <PropertyRef Name="idProducto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProductoPorSucursal_Sucursales">
+          <End Role="Sucursales" Type="Self.Sucursales" Multiplicity="0..1" />
+          <End Role="ProductoPorSucursal" Type="Self.ProductoPorSucursal" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Sucursales">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="ProductoPorSucursal">
+              <PropertyRef Name="idSucursal" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="ExamenModelStoreContainer">
+          <EntitySet Name="ProductoPorSucursal" EntityType="Self.ProductoPorSucursal" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Productos" EntityType="Self.Productos" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Sucursales" EntityType="Self.Sucursales" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_ProductoPorSucursal_Productos" Association="Self.FK_ProductoPorSucursal_Productos">
+            <End Role="Productos" EntitySet="Productos" />
+            <End Role="ProductoPorSucursal" EntitySet="ProductoPorSucursal" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProductoPorSucursal_Sucursales" Association="Self.FK_ProductoPorSucursal_Sucursales">
+            <End Role="Sucursales" EntitySet="Sucursales" />
+            <End Role="ProductoPorSucursal" EntitySet="ProductoPorSucursal" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="ExamenModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="ProductoPorSucursal">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="cantidad" Type="Int32" />
+          <Property Name="idSucursal" Type="Int32" />
+          <Property Name="idProducto" Type="Int32" />
+          <NavigationProperty Name="Productos" Relationship="Self.FK_ProductoPorSucursal_Productos" FromRole="ProductoPorSucursal" ToRole="Productos" />
+          <NavigationProperty Name="Sucursales" Relationship="Self.FK_ProductoPorSucursal_Sucursales" FromRole="ProductoPorSucursal" ToRole="Sucursales" />
+        </EntityType>
+        <EntityType Name="Productos">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="producto" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="codigoBarras" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="precio" Type="Decimal" Precision="10" Scale="2" />
+          <NavigationProperty Name="ProductoPorSucursal" Relationship="Self.FK_ProductoPorSucursal_Productos" FromRole="Productos" ToRole="ProductoPorSucursal" />
+        </EntityType>
+        <EntityType Name="Sucursales">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Sucursal" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="ProductoPorSucursal" Relationship="Self.FK_ProductoPorSucursal_Sucursales" FromRole="Sucursales" ToRole="ProductoPorSucursal" />
+        </EntityType>
+        <Association Name="FK_ProductoPorSucursal_Productos">
+          <End Role="Productos" Type="Self.Productos" Multiplicity="0..1" />
+          <End Role="ProductoPorSucursal" Type="Self.ProductoPorSucursal" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Productos">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="ProductoPorSucursal">
+              <PropertyRef Name="idProducto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProductoPorSucursal_Sucursales">
+          <End Role="Sucursales" Type="Self.Sucursales" Multiplicity="0..1" />
+          <End Role="ProductoPorSucursal" Type="Self.ProductoPorSucursal" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Sucursales">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="ProductoPorSucursal">
+              <PropertyRef Name="idSucursal" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="BribeEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="ProductoPorSucursal" EntityType="Self.ProductoPorSucursal" />
+          <EntitySet Name="Productos" EntityType="Self.Productos" />
+          <EntitySet Name="Sucursales" EntityType="Self.Sucursales" />
+          <AssociationSet Name="FK_ProductoPorSucursal_Productos" Association="Self.FK_ProductoPorSucursal_Productos">
+            <End Role="Productos" EntitySet="Productos" />
+            <End Role="ProductoPorSucursal" EntitySet="ProductoPorSucursal" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProductoPorSucursal_Sucursales" Association="Self.FK_ProductoPorSucursal_Sucursales">
+            <End Role="Sucursales" EntitySet="Sucursales" />
+            <End Role="ProductoPorSucursal" EntitySet="ProductoPorSucursal" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="ExamenModelStoreContainer" CdmEntityContainer="BribeEntities">
+          <EntitySetMapping Name="ProductoPorSucursal">
+            <EntityTypeMapping TypeName="ExamenModel.ProductoPorSucursal">
+              <MappingFragment StoreEntitySet="ProductoPorSucursal">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="cantidad" ColumnName="cantidad" />
+                <ScalarProperty Name="idSucursal" ColumnName="idSucursal" />
+                <ScalarProperty Name="idProducto" ColumnName="idProducto" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Productos">
+            <EntityTypeMapping TypeName="ExamenModel.Productos">
+              <MappingFragment StoreEntitySet="Productos">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="producto" ColumnName="producto" />
+                <ScalarProperty Name="codigoBarras" ColumnName="codigoBarras" />
+                <ScalarProperty Name="precio" ColumnName="precio" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Sucursales">
+            <EntityTypeMapping TypeName="ExamenModel.Sucursales">
+              <MappingFragment StoreEntitySet="Sucursales">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="Sucursal" ColumnName="Sucursal" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

@@ -1,0 +1,39 @@
+﻿@using DataBribe.Models
+@model List<Productos>
+
+@{
+    ViewBag.Title = "Productos";
+}
+
+<h2>Productos</h2>
+
+<table class="table">
+<tr>
+    <th>
+        Producto
+    </th>
+    <th>
+        Codigo de Barras
+    </th>
+    <th>
+        Precio Unitario
+    </th>
+    <th>
+
+    </th>
+</tr>
+
+@foreach (var item in Model)
+{
+    <tr>
+        <td>@item.producto</td>
+        <td>@item.codigoBarras</td>
+        <td>@item.precio</td>
+        <td>
+            <a href="/Home/irEditarProducto?idProducto=@item.id" class="btn btn-secondary">Editar</a>
+        </td>
+    </tr>
+    
+}
+
+</table>
